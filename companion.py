@@ -55,21 +55,6 @@ def get_artists_str(artists):
     return artists_str
 
 
-list_of_artists = get_artists_str(get_sorted_artists(get_music()))
-array_of_artists = get_sorted_artists(get_music())
-
-
-sg.Popup('You entered', list_of_artists)
-
-layout = [[sg.Text('Enter in an artist from the list to search known songs.')],
-                 [sg.InputText()],
-                 [sg.Submit(), sg.Cancel()]]
-
-window = sg.Window('Window Title', layout)
-
-event, values = window.Read()
-window.Close()
-
 def find_artist_songs(sg_user_input): #values[0] in pysimplegui
     user_input = sg_user_input
     if user_input == '': #if they dont enter anything, choose artist at random
@@ -81,6 +66,7 @@ def find_artist_songs(sg_user_input): #values[0] in pysimplegui
             #print(name) #print name
     return artists_songs_str
 
+
 def find_alphabetical_artists(letter, artists):
     alphabetical_artists = ''
     for artist in artists:
@@ -89,24 +75,27 @@ def find_alphabetical_artists(letter, artists):
     return alphabetical_artists
 
 
-sg.Popup('Songs for: ' + values[0], find_artist_songs(values[0])) #put songs from artists to the screen
+list_of_artists = get_artists_str(get_sorted_artists(get_music()))
+array_of_artists = get_sorted_artists(get_music())
 
 
 layout = [[sg.Text('Persistent window')],
           [sg.Button('A'), sg.Button('B'), sg.Button('C'),
            sg.Button('D'), sg.Button('E'),
            sg.Button('F'), sg.Button('G'),
-           sg.Button('H'), sg.Button('I'), sg.Exit()]]
+           sg.Button('H'), sg.Button('I'),
+           sg.Button('K'),
+           sg.Button('Next'), sg.Text('', size=(15,1), key='-OUTPUT-')]]
 
 window = sg.Window('Window that stays open', layout)
 
 while True:
     event, values = window.Read()
-    if event in (None, 'Exit'):
+    if event in (None, 'Next'):
         break
     if event in (None, 'A'):
         print('you pressed A')
-        print(find_alphabetical_artists('A', array_of_artists))
+        sg.Popup(find_alphabetical_artists('A', array_of_artists))
     if event in (None, 'B'):
         print('you pressed B')
         print(find_alphabetical_artists('B', array_of_artists))
@@ -126,5 +115,18 @@ while True:
         print(find_alphabetical_artists('I', array_of_artists))
 
 
-
 window.Close()
+
+
+layout = [[sg.Text('Enter in an artist from the list to search known songs.')],
+                 [sg.InputText()],
+                 [sg.Submit(), sg.Cancel()]]
+
+window = sg.Window('Window Title', layout)
+
+event, values = window.Read()
+window.Close()
+
+sg.Popup('Songs for: ' + values[0], find_artist_songs(values[0])) #put songs from artists to the screen
+
+
