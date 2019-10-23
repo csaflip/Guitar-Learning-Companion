@@ -78,9 +78,6 @@ def find_alphabetical_artists(letter, artists):
 list_of_artists = get_artists_str(get_sorted_artists(get_music()))
 array_of_artists = get_sorted_artists(get_music())
 
-col = [
-                  [sg.Text('', size=(16,30), key='-OUTPUT-')],
-    ]
 
 layout = [[sg.Text('Persistent window')],
           [sg.Button('A'), sg.Button('B'), sg.Button('C'),
@@ -95,10 +92,7 @@ layout = [[sg.Text('Persistent window')],
            sg.Button('U'), sg.Button('V'),
            sg.Button('W'), sg.Button('X'),
            sg.Button('Y'), sg.Button('Z'),
-           sg.Button('Next')],
-          [sg.Slider(range=(1,100), default_value=10, orientation='v', size=(8,20)), sg.Column(col)]] #TODO fix slider
-#sg.Frame('Artists', frame_layout)]
-
+           sg.Button('Next'), sg.Output(size=(30, 30), key='-OUTPUT-')]] #Scrollable output!
 window = sg.Window('Window that stays open', layout)
 
 while True:
@@ -108,7 +102,7 @@ while True:
         break
     if event:
         window['-OUTPUT-'].Update(find_alphabetical_artists(event[0], array_of_artists)) #list artists corresponding to button.
-        print(find_alphabetical_artists(event[0], array_of_artists))
+        #print(find_alphabetical_artists(event[0], array_of_artists))
     #sg.Popup(find_alphabetical_artists(event[0], array_of_artists)) #TODO consider this in revision.
 
 
@@ -127,19 +121,19 @@ window.Close()
 
 sg.Popup('Songs for: ' + values[0], find_artist_songs(values[0])) #put songs from artists to the screen
 
-layout = [
-          [sg.Text('This text is clickable', click_submits=True)],
-          [sg.Text('This text is clickable with a key', click_submits=True, key='Text Key')],
-          [sg.Text('This text is not clickable')],
-            [sg.Button('A')],
-          [sg.ReadButton('Button that does nothing')]
-         ]
-
-form = sg.FlexForm('Demo of clickable Text Elements').Layout(layout)
-
-while True:
-    button, values = form.Read()
-    if button is None: break
-    print(button, values)
+# layout = [
+#           [sg.Text('This text is clickable', click_submits=True)],
+#           [sg.Text('This text is clickable with a key', click_submits=True, key='Text Key')],
+#           [sg.Text('This text is not clickable')],
+#             [sg.Button('A')],
+#           [sg.ReadButton('Button that does nothing')]
+#          ]
+#
+# form = sg.FlexForm('Demo of clickable Text Elements').Layout(layout)
+#
+# while True:
+#     button, values = form.Read()
+#     if button is None: break
+#     print(button, values)
 
 
