@@ -78,49 +78,47 @@ def find_alphabetical_artists(letter, artists):
 list_of_artists = get_artists_str(get_sorted_artists(get_music()))
 array_of_artists = get_sorted_artists(get_music())
 
+col = [
+                  [sg.Text('', size=(16,30), key='-OUTPUT-')],
+    ]
 
 layout = [[sg.Text('Persistent window')],
           [sg.Button('A'), sg.Button('B'), sg.Button('C'),
            sg.Button('D'), sg.Button('E'),
            sg.Button('F'), sg.Button('G'),
            sg.Button('H'), sg.Button('I'),
-           sg.Button('K'),
-           sg.Button('Next'), sg.Text('', size=(15,1), key='-OUTPUT-')]]
+           sg.Button('K'), sg.Button('L'),
+           sg.Button('M'), sg.Button('N'),
+           sg.Button('O'), sg.Button('P'),
+           sg.Button('Q'), sg.Button('R'),
+           sg.Button('S'), sg.Button('T'),
+           sg.Button('U'), sg.Button('V'),
+           sg.Button('W'), sg.Button('X'),
+           sg.Button('Y'), sg.Button('Z'),
+           sg.Button('Next')],
+          [sg.Slider(range=(1,100), default_value=10, orientation='v', size=(8,20)), sg.Column(col)]] #TODO fix slider
+#sg.Frame('Artists', frame_layout)]
 
 window = sg.Window('Window that stays open', layout)
 
 while True:
     event, values = window.Read()
+    print(event, values)
     if event in (None, 'Next'):
         break
-    if event in (None, 'A'):
-        print('you pressed A')
-        sg.Popup(find_alphabetical_artists('A', array_of_artists))
-    if event in (None, 'B'):
-        print('you pressed B')
-        print(find_alphabetical_artists('B', array_of_artists))
-    if event in (None, 'C'):
-        print(find_alphabetical_artists('C', array_of_artists))
-    if event in (None, 'D'):
-        print(find_alphabetical_artists('D', array_of_artists))
-    if event in (None, 'E'):
-        print(find_alphabetical_artists('E', array_of_artists))
-    if event in (None, 'F'):
-        print(find_alphabetical_artists('F', array_of_artists))
-    if event in (None, 'G'):
-        print(find_alphabetical_artists('G', array_of_artists))
-    if event in (None, 'H'):
-        print(find_alphabetical_artists('H', array_of_artists))
-    if event in (None, 'I'):
-        print(find_alphabetical_artists('I', array_of_artists))
+    if event:
+        window['-OUTPUT-'].Update(find_alphabetical_artists(event[0], array_of_artists)) #list artists corresponding to button.
+        print(find_alphabetical_artists(event[0], array_of_artists))
+    #sg.Popup(find_alphabetical_artists(event[0], array_of_artists)) #TODO consider this in revision.
 
 
 window.Close()
 
 
 layout = [[sg.Text('Enter in an artist from the list to search known songs.')],
-                 [sg.InputText()],
-                 [sg.Submit(), sg.Cancel()]]
+
+          [sg.InputText()],
+          [sg.Submit(), sg.Cancel()]]
 
 window = sg.Window('Window Title', layout)
 
@@ -128,5 +126,20 @@ event, values = window.Read()
 window.Close()
 
 sg.Popup('Songs for: ' + values[0], find_artist_songs(values[0])) #put songs from artists to the screen
+
+layout = [
+          [sg.Text('This text is clickable', click_submits=True)],
+          [sg.Text('This text is clickable with a key', click_submits=True, key='Text Key')],
+          [sg.Text('This text is not clickable')],
+            [sg.Button('A')],
+          [sg.ReadButton('Button that does nothing')]
+         ]
+
+form = sg.FlexForm('Demo of clickable Text Elements').Layout(layout)
+
+while True:
+    button, values = form.Read()
+    if button is None: break
+    print(button, values)
 
 
